@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # QueryForge: AST-Based SQL Query Optimizer
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue)](https://python.org)
@@ -168,7 +168,7 @@ A query with `WHERE id = 750000` hits only Shard B — eliminating 50% of I/O.
 
 ---
 
-## Resume Claims — Evidence
+## Claims — Evidence
 
 | Claim | How It's Proved |
 |---|---|
@@ -182,4 +182,3 @@ A query with `WHERE id = 750000` hits only Shard B — eliminating 50% of I/O.
 
 
 
->>>>>>> d275775d58a78f6c1112576e419c3c8dfb5de4f0
