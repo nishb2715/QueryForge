@@ -161,16 +161,6 @@ A query with `WHERE id = 750000` hits only Shard B — eliminating 50% of I/O.
 
 ---
 
-## Interview Talking Points
 
-**Q: What is predicate pushdown?**
-> "Instead of loading all 1M rows into memory then filtering in Python, we push the `WHERE` condition down into the scan node itself. The database engine evaluates `age > 25 AND city = 'Delhi'` while reading pages, so rows that don't match never enter the execution pipeline. This reduced our scanned rows from 1M to ~4,700 — a 200× reduction in data volume."
-
-**Q: How does your cost model work?**
-> "It's inspired by PostgreSQL's Selinger-style planner. For each table, we store statistics: total rows, page count, index availability, and shard ranges. We estimate predicate selectivity (e.g., an equality filter selects ~1% of rows by default) and multiply selectivities assuming column independence. Then we compute `total_cost = io_cost + cpu_cost`, where IO cost depends on whether we use sequential or random (index) page access."
-
-**Q: Why Hash Join over Nested Loop for your JOIN query?**
-> "Hash Join is O(n+m) — we build a hash table from the smaller table in memory, then probe it with each row from the larger table. Nested Loop is O(n×m) worst case. When the smaller table is less than 10% the size of the larger table (like a lookup table vs. a fact table), Hash Join dominates. PostgreSQL uses a similar threshold in its join planner."
-=======
 
 >>>>>>> d275775d58a78f6c1112576e419c3c8dfb5de4f0
