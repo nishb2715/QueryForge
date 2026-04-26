@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # QueryForge: AST-Based SQL Query Optimizer
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue)](https://python.org)
@@ -170,3 +171,6 @@ A query with `WHERE id = 750000` hits only Shard B — eliminating 50% of I/O.
 
 **Q: Why Hash Join over Nested Loop for your JOIN query?**
 > "Hash Join is O(n+m) — we build a hash table from the smaller table in memory, then probe it with each row from the larger table. Nested Loop is O(n×m) worst case. When the smaller table is less than 10% the size of the larger table (like a lookup table vs. a fact table), Hash Join dominates. PostgreSQL uses a similar threshold in its join planner."
+=======
+
+>>>>>>> d275775d58a78f6c1112576e419c3c8dfb5de4f0
