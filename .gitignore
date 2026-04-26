@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+QF/
+
+# Data and Large Files (Crucial)
+data_gen/*.csv
+data_gen/*.sql
+!data_gen/.gitkeep
+
+# Environment & IDE
+.env
+.vscode/
+.idea/
+.DS_Store
+.QF/
+.QF 
+
+# Docker
+.docker/

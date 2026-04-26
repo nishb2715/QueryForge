@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Shard A: Stores Users with IDs 0-499,999
+  shard_a:
+    image: postgres:16
+    container_name: queryforge_shard_a
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: qf_shard_a
+    ports:
+      - "5433:5432"  # Changed to 5433 to avoid local conflict
+    volumes:
+      - shard_a_data:/var/lib/postgresql/data
+      - ./data_gen/init_shard_a.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d qf_shard_a"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Shard B: Stores Users with IDs 500,000-999,999
+  shard_b:
+    image: postgres:16
+    container_name: queryforge_shard_b
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: qf_shard_b
+    ports:
+      - "5434:5432"  # Changed to 5434 to avoid local conflict
+    volumes:
+      - shard_b_data:/var/lib/postgresql/data
+      - ./data_gen/init_shard_b.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d qf_shard_b"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # QueryForge API & Optimizer Service
+  api:
+    build: .
+    container_name: queryforge_api
+    ports:
+      - "8000:8000"
+    environment:
+      - SHARD_A_URL=postgresql://user:password@shard_a:5432/qf_shard_a
+      - SHARD_B_URL=postgresql://user:password@shard_b:5432/qf_shard_b
+    depends_on:
+      shard_a:
+        condition: service_healthy
+      shard_b:
+        condition: service_healthy
+
+volumes:
+  shard_a_data:
+  shard_b_data:
