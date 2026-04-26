@@ -30,6 +30,25 @@ queryforge/
 ├── docker-compose.yml
 └── requirements.txt
 ```
+## Performance Benchmarks & Visualization
+
+### 1. Optimization Speedup (1M Rows)
+The benchmark suite compares a **Naive Full Scan** against the **QueryForge Optimized Plan**. For extreme selectivity queries (e.g., filtering for specific cities/age brackets), the system achieves significant latency reduction.
+<img width="509" height="807" alt="Screenshot 2026-04-26 140702" src="https://github.com/user-attachments/assets/2b7d307e-bccc-411c-afd2-cac68ae4ca14" />
+
+
+### 2. Step-by-Step Query Rewriting
+QueryForge decomposes raw SQL into an Abstract Syntax Tree (AST) before applying transformation rules like **Predicate Pushdown**.
+
+<img width="526" height="804" alt="Screenshot 2026-04-26 140714" src="https://github.com/user-attachments/assets/dfa3b4cd-31ff-4245-a771-a6219142cf74" />
+
+
+### 3. Physical Plan & Cost Model Decision
+The Cost-Based Optimizer (CBO) calculates the I/O and CPU overhead for different execution strategies. It automatically shifts from a `FullTableScan` to an `IndexScan` when selectivity thresholds are met, resulting in a **~24x reduction in estimated cost**.
+
+<img width="514" height="622" alt="Screenshot 2026-04-26 140730" src="https://github.com/user-attachments/assets/b3087131-da62-414a-90df-538f1fb58a14" />
+
+
 
 ---
 
